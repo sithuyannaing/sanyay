@@ -1,42 +1,22 @@
 import { useState } from "react"
-
-
-function Item({item,remove}:any) {
-  return(
-    <li>
-      <span>
-      {item.content} -<b>{item.name}</b>
-      </span>
-      <button onClick={() => remove(item.id)}>Delete</button>
-    </li>
-  )
-}
-
-function List({children}:any) {
-  return(
-    <ul>
-      {children}
-    </ul>
-  )
-}
+import List from "./List"
+import Item from "./Item"
+import Form from "./Form";
 
 export default function App() {
-  const [data,setData] = useState([
-    { id: 1, content: "Hello, World!", name: "Alice" },
-    { id: 2, content: "React is fun.", name: "Bob" },
-    { id: 3, content: "Yay, interesting.", name: "Chris" },
-  ]);
-  const remove = (id:any) => {
-    setData(data.filter(item => item.id !== id));
+  const [data,setData] = useState<any>([]);
+  const add = (content:string, name:string) => {
+    setData([...data,{content,name}])
   }
+
   return (
     <div>
       <h1>Sanyay</h1>
+      <Form add={add}/>
       <List>
         {
-          data.map((item:any) => {
-            return <Item key={item.id} item={item} remove={remove} />
-          })
+          //need to set id or key
+          data.map((item:any) => <Item content={item.content} name={item.name} />)
         }
       </List>
     </div>
