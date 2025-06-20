@@ -14,6 +14,7 @@ export default function Form({add}:FormProps) {
             const content = contentVal.current!.value;
             const name = nameVal.current!.value;
             add(content,name)
+            e.currentTarget.reset();
         }}>
             <input ref={contentVal} type="text" placeholder="content" />
             <input ref={nameVal} type="text" placeholder="name" />
