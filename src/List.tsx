@@ -1,8 +1,5 @@
-import { ReactNode } from "react"
+import { Listprops } from "./types/types"
 
-type Listprops = {
-    children : ReactNode
-}
 export default function List({children}:Listprops) {
   return(
     <ul>
