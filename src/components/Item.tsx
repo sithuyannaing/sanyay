@@ -12,6 +12,8 @@ import {
  } from "@mui/icons-material";
  import { green } from "@mui/material/colors";
 import { ItemProps } from "../types/types";
+import { formatRelative } from "date-fns";
+
 
 export default function Item({item,remove}:ItemProps) {
   return(
@@ -33,7 +35,7 @@ export default function Item({item,remove}:ItemProps) {
             <Typography
               variant="caption"
               sx={{ color: green[500] }}>
-              A few second ago
+              {formatRelative(item.created, new Date())}
             </Typography>
           </Box>
           <IconButton

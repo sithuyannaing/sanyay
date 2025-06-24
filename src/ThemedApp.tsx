@@ -5,12 +5,16 @@ import {
   createTheme,
  } from "@mui/material";
 import { deepPurple, grey } from "@mui/material/colors";
-import AppDrawer from "./components/AppDrawer";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Template from "./Template";
 import Home from "./pages/Home";
 import { PaletteColor } from '@mui/material/styles';
 import { AppContextType } from "./types/types";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import Comments from "./pages/Comments";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 
 declare module '@mui/material/styles' {
@@ -40,15 +44,33 @@ export function useApp() {
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/comments",
+        element: <Comments />,
       }
     ],
   },
  ]);
 
+ export const queryClient = new QueryClient();
+
 
 export default function ThemedApp() {
   const [showDrawer, setShowDrawer] = useState(true);
-  const [auth, setAuth] = useState(true);
+  const [auth, setAuth] = useState(false);
   //const [globelMsg, setGlobelMsg] = useState(undefined);
   const [showForm, setShowForm] = useState(false);
   const [mode, setMode] = useState("dark");
@@ -67,8 +89,9 @@ export default function ThemedApp() {
   return(
   <ThemeProvider theme={theme}>
     <AppContext.Provider value={{showDrawer,setShowDrawer,auth,setAuth,showForm,setShowForm,mode,setMode}}>
+      <QueryClientProvider client={queryClient}>
       <RouterProvider router={router}></RouterProvider>
-      <AppDrawer />
+      </QueryClientProvider>
       <CssBaseline />
     </AppContext.Provider>
   </ThemeProvider>

@@ -30,6 +30,7 @@ export type ItemProps = {
     id: number;
     content: string;
     name: string;
+    created: string;
   };
   remove: (id: number) => void;
 };
