@@ -8,33 +8,22 @@ import { useQuery, useMutation } from "react-query";
 import { queryClient } from "../ThemedApp";
 
 
+const api = import.meta.env.VITE_API;
 export default function Home() {
-    //const [data,setData] = useState<Post[]>([]);
-    // const [isLoading,setIsLoading] = useState(true); 
-    // const [error, setError] = useState(false);
-    const api = import.meta.env.VITE_API;
+
+
     const { isLoading, isError, error, data } = useQuery("posts", async () => {
       
       const res = await fetch(`${api}/content/posts`);
       return res.json();
     });
 
-      // useEffect(() => {
-      //   const api = import.meta.env.VITE_API;
-      //   fetch(`${api}/content/posts`)
-      //   .then(res => res.json())
-      //   .then(data => {
-      //     setData(data)
-      //     setIsLoading(false);
-      //   })
-      //   .catch(() => setError(true));
-      // },[])
-
-        const {showForm} = useApp();
+        const {showForm, setGlobalMsg} = useApp();
 
         const add = (content:string, name:string) => {
           const id = data[data.length - 1]?.id ? data[data.length - 1]?.id + 1 : 1;
           //setData([...data,{id,content,name}]);
+          setGlobalMsg("An item added")
         }
         const remove = useMutation(
           async (id:number) => {
@@ -48,15 +37,15 @@ export default function Home() {
           queryClient.setQueryData("posts", (old:any) =>
           old.filter((item:any) => item.id !== id)
           );
-          //setGlobalMsg("A post deleted");
+          setGlobalMsg("A post deleted");
           },
           }
         )
 
-        if (error) {
+        if (isError) {
         return (
         <Box>
-        <Alert severity="warning">Cannot fetch data</Alert>
+        <Alert severity="warning">{error.message}</Alert>
         </Box>
         );
         }

@@ -9,6 +9,8 @@ export type AppContextType = {
   setShowForm: (value: boolean) => void;
   mode: string;
   setMode: (value: string) => void;
+  globalMsg: boolean | null;
+  setGlobalMsg: (value: any) => void;
 };
 
 export type Listprops = {

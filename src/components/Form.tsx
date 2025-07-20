@@ -6,8 +6,6 @@ Button,
 } from "@mui/material";
 import { FormProps } from "../types/types";
 
-
-
 export default function Form({add}:FormProps) {
     //check - type inference don't work auto?
     const contentRef = useRef<HTMLInputElement>(null);

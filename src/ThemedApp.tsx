@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo, useState } from "react";
 import { 
   CssBaseline, 
+  Snackbar, 
   ThemeProvider, 
   createTheme,
  } from "@mui/material";
@@ -36,7 +37,7 @@ export function useApp() {
   return context;
 }
 
- const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Template />,
@@ -65,13 +66,13 @@ export function useApp() {
   },
  ]);
 
- export const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 
 export default function ThemedApp() {
   const [showDrawer, setShowDrawer] = useState(true);
   const [auth, setAuth] = useState(false);
-  //const [globelMsg, setGlobelMsg] = useState(undefined);
+  const [globalMsg, setGlobalMsg] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [mode, setMode] = useState("dark");
   const theme = useMemo(() => {
@@ -88,10 +89,20 @@ export default function ThemedApp() {
   },[mode])
   return(
   <ThemeProvider theme={theme}>
-    <AppContext.Provider value={{showDrawer,setShowDrawer,auth,setAuth,showForm,setShowForm,mode,setMode}}>
+    <AppContext.Provider value={{showDrawer,setShowDrawer,auth,setAuth,globalMsg,setGlobalMsg,showForm,setShowForm,mode,setMode}}>
       <QueryClientProvider client={queryClient}>
       <RouterProvider router={router}></RouterProvider>
       </QueryClientProvider>
+      <Snackbar
+          anchorOrigin={{
+            horizontal: "center",
+            vertical: "bottom",
+          }}
+          open={Boolean(globalMsg)}
+          autoHideDuration={6000}
+          onClose={() => setGlobalMsg(null)}
+          message={globalMsg}
+        />
       <CssBaseline />
     </AppContext.Provider>
   </ThemeProvider>
