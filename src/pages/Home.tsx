@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import { useApp } from "../ThemedApp";
 import { Alert, Box } from "@mui/material";
 import Form from "../components/Form";
 import Item from "../components/Item";
-import { Post } from "../types/types";
 import { useQuery, useMutation } from "react-query";
 import { queryClient } from "../ThemedApp";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 const api = import.meta.env.VITE_API;
@@ -18,7 +18,16 @@ export default function Home() {
       return res.json();
     });
 
-        const {showForm, setGlobalMsg} = useApp();
+        const {showForm, setGlobalMsg,auth,setAuth} = useApp();
+        const navigate = useNavigate();
+        
+      useEffect(() => {
+          if(auth) {
+            navigate('/');
+          }else{
+            navigate('/login')
+          }
+      }, [auth]);
 
         const add = (content:string, name:string) => {
           const id = data[data.length - 1]?.id ? data[data.length - 1]?.id + 1 : 1;
@@ -55,9 +64,9 @@ export default function Home() {
         }
     return (
         <Box>
-            {showForm && <Form add={add}/>}
+            {showForm && auth && <Form add={add}/>}
             {
-            data.map((item:any) => <Item key={item.id} item={item} remove={remove.mutate}/>)
+            auth && data.map((item:any) => <Item key={item.id} item={item} remove={remove.mutate}/>)
             }
         </Box>
     )
