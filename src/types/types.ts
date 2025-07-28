@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 export type AppContextType = {
   showDrawer: boolean;
   setShowDrawer: (value: boolean) => void;
-  auth: boolean;
+  auth: any;
   setAuth: (value: boolean) => void;
   showForm: boolean;
   setShowForm: (value: boolean) => void;

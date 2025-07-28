@@ -6,6 +6,7 @@ import { useQuery, useMutation } from "react-query";
 import { queryClient } from "../ThemedApp";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchVerify } from "../libs/fetcher";
 
 
 const api = import.meta.env.VITE_API;
@@ -22,12 +23,14 @@ export default function Home() {
         const navigate = useNavigate();
         
       useEffect(() => {
-          if(auth) {
-            navigate('/');
-          }else{
-            navigate('/login')
-          }
-      }, [auth]);
+        console.log(auth.length > 0,'auth..')
+        if(auth.length > 0) {
+          console.log(auth,'go to home pg')
+          navigate('/');
+        }else{
+          navigate('/login')
+        }
+      });
 
         const add = (content:string, name:string) => {
           const id = data[data.length - 1]?.id ? data[data.length - 1]?.id + 1 : 1;

@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { 
   CssBaseline, 
   Snackbar, 
@@ -16,6 +16,7 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import Comments from "./pages/Comments";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { fetchVerify } from "./libs/fetcher";
 
 
 declare module '@mui/material/styles' {
@@ -75,6 +76,13 @@ export default function ThemedApp() {
   const [globalMsg, setGlobalMsg] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [mode, setMode] = useState("dark");
+
+  useEffect(() => {
+		fetchVerify().then(user => {
+			if (user) setAuth(user);
+		});
+	}, []);
+   
   const theme = useMemo(() => {
     return createTheme({
     palette: {

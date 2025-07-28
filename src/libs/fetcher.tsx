@@ -27,3 +27,22 @@ export const postLogin = async (username:string, password:string) => {
   }
   throw new Error("Incorrect username or password");
 };
+
+const getToken = () => {
+  return localStorage.getItem("token");
+}
+
+export const fetchVerify = async () => {
+  const token = getToken();
+	const res = await fetch(`${api}/verify`, {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	});
+
+	if (res.ok) {
+		return res.json();
+	}
+
+	return false;
+}

@@ -28,8 +28,8 @@ export default function Login() {
 		},
 		onSuccess: async (result) => {
 			console.log(result,'result')
-			setAuth(true);
-			localStorage.setItem('isAuth',"true");
+			setAuth(result.user);
+			localStorage.setItem('token',result.token);
 			navigate("/");
 		}
 	});
